@@ -17,6 +17,12 @@
                                     <li class="list-group-item">Phone:&nbsp;{{$company->phone}}</li>
                                     <li class="list-group-item">Website:&nbsp;{{$company->website}}</li>
                                 </ul>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('company.profile') }}">Back to Company Profile</a>
+                                    </li>
+                                </ul>
+
                             </div>
                             <div class="col-lg-6">
                                 @if(Auth::check() && Auth::user()->company->cover_photo)

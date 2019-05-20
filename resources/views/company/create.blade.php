@@ -21,6 +21,11 @@
                             @endif
                         </div>
                     </div>
+                    @if(Session::has('error'))
+                        <div class="alert alert-danger">
+                            <p>{{Session::get('error')}}</p>
+                        </div>
+                    @endif
                     <br/>
                     <button class="btn btn-success btn sm">Update</button>
 
@@ -116,6 +121,11 @@
                                  <input type="file" class="form-control" name="cover_photo">
                             </div>
                         </div>
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger">
+                            <p>{{Session::get('error')}}</p>
+                        </div>
+                    @endif
                         <br/>
                         <button class="btn btn-success btn sm">Update</button>
                     </form>

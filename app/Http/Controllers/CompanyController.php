@@ -17,17 +17,78 @@ class CompanyController extends Controller
 
 
     public function create(){
-
+        return view('company.create');
     }
-    public function uploadLogo(){
+    public function uploadLogo(Request $request){
+        $user_id =  Auth()->user()->id;
+        if($user_id){
 
+            if($request->hasFile('logo')){
+                $file  = $request->file('logo');
+
+                $file_ext = $file->getClientOriginalExtension();
+
+                $filename = time() . '.' . $file_ext;
+
+                $file->move('uploads/logos/', $filename);
+
+                Company::where('user_id', $user_id)->update([
+                    'logo' => $filename
+                ]);
+
+                return redirect('/company/create')->with('message', 'Logo uploaded successfully');
+            }else{
+                return redirect('/company/create')->with('error', 'Logo upload unsuccessful');
+            }
+        }
+        return redirect('/company/create')->with('error', 'Logo upload unsuccessful');
     }
-    public function uploadCoverPhoto(){
 
+
+    public function uploadCoverPhoto(Request $request){
+        $user_id = auth()->user()->id;
+
+        if($user_id){
+            if($request->hasfile('cover_photo')){
+                $file = $request->file('cover_photo');
+                $ext = $file->getClientOriginalExtension();
+                $filename = time() . '.'. $ext;
+                $file->move('uploads/coverphoto/', $filename);
+                Company::where('user_id', $user_id)->update([
+                    'cover_photo' => $filename
+                ]);
+                return redirect('/company/create')->with('message', 'Cover photo uploaded successfully');
+            }else{
+                return redirect('/company/create')->with('error', 'Cover photo upload unsuccessful');
+            }
+        }
+        return redirect('/company/create')->with('error', 'Cover photo upload unsuccessful');
     }
 
-    public function store(){
 
+
+
+    public function store(Request $request){
+        $user_id =  Auth()->user()->id;
+        if($user_id){
+            $address = $request->input('address');
+            $phone  = $request->input('phone');
+            $website = $request->input('website');
+            $slogan = $request->input('slogan');
+            $description = $request->input('description');
+
+            Company::where('user_id', $user_id)->update([
+                'address' =>$address,
+                'phone' => $phone,
+                'website' => $website,
+                'slogan' => $slogan,
+                'description' => $description,
+
+            ]);
+
+            return redirect('/company/create')->with('message', 'Company profile successfully saved.');
+        }
+        return redirect('/company/create')->with('error', 'Company profile unsuccessful.');
     }
 
 }

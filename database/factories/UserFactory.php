@@ -20,14 +20,26 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $chosen = $faker->randomElement($array = array('seeker', 'employer'));
+    if($chosen == 'employer'):
     return [
-        'name' => $faker->name,
+        'name' => $faker->company,
         'email' => $faker->unique()->safeEmail,
-        'user_type'=>$faker->randomElement($array = array('seeker', 'employer')),
+        'user_type'=>$chosen,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
     ];
+    else:
+        return [
+            'name' => $faker->name,
+            'email' => $faker->unique()->safeEmail,
+            'user_type'=>$chosen,
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ];
+    endif;
 });
 
 
@@ -35,10 +47,10 @@ $factory->define(User::class, function (Faker $faker) {
 $factory->define(Company::class, function (Faker $faker) {
 
     $user_id = User::select('id')->inRandomOrder()->where('user_type', 'employer')->first();
-
+    $company = User::select('name')->where('id', $user_id->id)->first();
     return [
         'user_id' => $user_id->id,
-        'company_name' => $name=$faker->company,
+        'company_name' => $name=$company->name,
         'slug' => str_slug($name),
         'address' => $faker->address,
         'phone' => $faker->phoneNumber,
