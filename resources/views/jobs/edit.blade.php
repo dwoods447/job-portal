@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header">Post a new Job</div>
+                    <div class="card-header">Edit Job</div>
                     <div class="card-body">
                         @if(Session::has('error'))
                             <div class="alert alert-danger">
@@ -12,30 +12,30 @@
                             </div>
                         @endif
 
-                            @if(Session::has('message'))
-                                <div class="alert alert-success">
-                                    <p>{{Session::get('message')}}</p>
-                                </div>
-                            @endif
-
-                        <form action="{{route('update.job')}}" method="post">@csrf
+                        @if(Session::has('message'))
+                            <div class="alert alert-success">
+                                <p>{{Session::get('message')}}</p>
+                            </div>
+                        @endif
+                    @if(!empty($job))
+                        <form action="{{route('update.job', [$job[0]->id])}}" method="post">@csrf
                             <div class="form-group">
                                 <label>Job Title</label>
-                                <input type="text" value="{{old('title')}}" name="title" class="form-control">
+                                <input type="text" name="title" class="form-control" value="{{ $job[0]->title }}">
                                 @if($errors->has('title'))
                                     <span class="text-danger error">{{ $errors->first('title') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" rows="5" class="form-control">{{old('description')}}</textarea>
+                                <textarea name="description" rows="5" class="form-control">{{ $job[0]->description }}</textarea>
                                 @if($errors->has('description'))
                                     <span class="text-danger error">{{ $errors->first('description') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label>Role</label>
-                                <textarea name="roles" rows="5" class="form-control">{{old('roles')}}</textarea>
+                                <textarea name="roles" rows="5" class="form-control">{{ $job[0]->roles }}</textarea>
                                 @if($errors->has('roles'))
                                     <span class="text-danger error">{{ $errors->first('roles') }}</span>
                                 @endif
@@ -45,7 +45,12 @@
                                 <select name="category" class="form-control">
                                     <option value=""></option>
                                     @foreach(App\Category::all() as $cat)
-                                        <option value="{{$cat->id}}">{{$cat->cat_name}}</option>
+                                        @if($cat->id === $job[0]->category_id)
+                                            <option value="{{$cat->id}}" selected>{{$cat->cat_name}}</option>
+                                        @else
+                                          <option value="{{$cat->id}}">{{$cat->cat_name}}</option>
+                                        @endif
+
                                     @endforeach
                                 </select>
                                 @if($errors->has('category'))
@@ -54,14 +59,14 @@
                             </div>
                             <div class="form-group">
                                 <label>Position</label>
-                                <input type="text" value="{{old('position')}}" name="position" class="form-control">
+                                <input type="text" value="{{ $job[0]->position }}" name="position" class="form-control">
                                 @if($errors->has('position'))
                                     <span class="text-danger error">{{ $errors->first('position') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label>Address</label>
-                                <input type="text" value="{{old('address')}}" name="address" class="form-control">
+                                <input type="text" value="{{  $job[0]->address }}" name="address" class="form-control">
                                 @if($errors->has('address'))
                                     <span class="text-danger error">{{ $errors->first('address') }}</span>
                                 @endif
@@ -94,7 +99,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Post Date</label>
-                                <input type="date" value="{{old('last_date')}}" name="last_date" class="form-control">
+                                <input type="date" value="{{ $job[0]->last_date }}" name="last_date" class="form-control">
                                 @if($errors->has('last_date'))
                                     <span class="text-danger error">{{ $errors->first('last_date') }}</span>
                                 @endif
@@ -105,7 +110,7 @@
                             </div>
 
                         </form>
-
+                      @endif
                     </div>
                 </div>
             </div>

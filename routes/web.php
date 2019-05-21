@@ -59,3 +59,11 @@ Route::post('/jobseeker/cover_letter/upload', 'ProfileController@uploadCoverLett
 
 Route::get('/employer/create/job', 'JobController@jobCreationForm')->name('employer.jobcreationform');
 Route::post('/employer/create/job','JobController@createJob')->name('post.job');
+
+
+//List jobs that belong to an employer
+Route::get('/employer/jobs', 'EmployerController@getJobs')->name('employer.jobs');
+//Edit jobs that belong to an employer
+Route::get('/employer/{user_id}/job/{id}', 'EmployerController@editJob')->name('edit.job');
+//Update jobs that belong to an employer
+Route::post('/employer/job/{id}', 'EmployerController@updateJob')->name('update.job');
