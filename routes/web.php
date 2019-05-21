@@ -50,7 +50,12 @@ Route::post('/company/store', 'CompanyController@store')->name('company.store');
 
 //Jobseeker Profile
 Route::get('/jobseeker/profile', 'ProfileController@create')->name('jobseeker.profile');
-Route::post('/jobseeker/profile/store', 'JobController@store')->name('profile.store');
-Route::post('/jobseeker/avatar/upload', 'JobController@uploadAvatar')->name('upload.avatar');
-Route::post('/jobseeker/resume/upload', 'JobController@uploadResume')->name('upload.resume');
-Route::post('/jobseeker/cover_letter/upload', 'JobController@uploadCoverLetter')->name('upload.coverletter');
+Route::post('/jobseeker/profile/store', 'ProfileController@store')->name('profile.store');
+Route::post('/jobseeker/avatar/upload', 'ProfileController@uploadAvatar')->name('upload.avatar');
+Route::post('/jobseeker/resume/upload', 'ProfileController@uploadResume')->name('upload.resume');
+Route::post('/jobseeker/cover_letter/upload', 'ProfileController@uploadCoverLetter')->name('upload.coverletter');
+
+
+
+Route::get('/employer/create/job', 'JobController@jobCreationForm')->name('employer.jobcreationform');
+Route::post('/employer/create/job','JobController@createJob')->name('post.job');

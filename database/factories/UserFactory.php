@@ -79,7 +79,7 @@ $factory->define(Job::class, function (Faker $faker) {
             'category_id' => rand(1,5),
             'position' => $title,
             'address' => $faker->address,
-            'job_type' => $faker->randomElement($array = array('full-time', 'part-time', 'contract', 'internship', 'temporary', 'commision')),
+            'job_type' => $faker->randomElement($array = array('full-time', 'part-time', 'contract', 'internship', 'temporary', 'commission')),
             'status' => rand(0,1),
             'last_date' => $faker->DateTime,
         ];

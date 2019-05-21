@@ -28,13 +28,28 @@ class ProfileController extends Controller
             $bio = $request->input('bio');
             $phone = $request->input('phone');
 
-            Profile::where('user_id', $user_id)->update([
-                'address' => $address,
-                'phone' => $phone,
-                'experience' => $experience,
-                'bio' => $bio,
+            $profile = Profile::where('user_id', $user_id)->get();
+			//dd($profile);
+			if(empty($profile)){
+				$profileUpdate = Profile::where('user_id', $user_id)->update([
+					'address' => $address,
+					'phone' => $phone,
+					'experience' => $experience,
+					'bio' => $bio,
 
-            ]);
+				]);
+
+			}else{
+				$newProfile = Profile::create([
+					'user_id' => $user_id,
+					'address' => $address,
+					'phone' => $phone,
+					'experience' => $experience,
+					'bio' => $bio,
+				]);
+
+			}
+
             return redirect('/jobseeker/profile')->with('message', 'Profile information successfully saved!');
         }
         return redirect('/jobseeker/profile')->with('error', 'Error saving profile information!');
@@ -50,7 +65,7 @@ class ProfileController extends Controller
 
                 $file_ext = $file->getClientOriginalExtension();
 
-                $filename = time() . '.' . $file_ext;
+                $filename = time() . '.' . strtolower($file_ext);
 
                 $file->move('uploads/avatars/', $filename);
 
@@ -79,7 +94,7 @@ class ProfileController extends Controller
             Profile::where('user_id', $user_id)->update([
                 'resume' => $resume
             ]);
-            return redirect('/user/profile')->with('message','Resume uploaded successfully.');
+            return redirect('/jobseeker/profile')->with('message','Resume uploaded successfully.');
         }
         return redirect('/jobseeker/profile')->with('error', 'Error: resume upload unsuccessful!');
     }
@@ -92,7 +107,7 @@ class ProfileController extends Controller
         ]);
         $user_id = Auth()->user()->id;
         if ($user_id) {
-            $coverletter = $request->file('cover_letter')->store('public/files');
+            $coverletter = $request->file('cover_letter')->store('public/coverletters');
 
             Profile::where('user_id', $user_id)->update([
                 'cover_letter' => $coverletter

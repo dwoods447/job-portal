@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-3">
                 @if(!empty(Auth::user()->profile->avatar))
-                    <img src="{{ asset('uploads/avatar') }}/{{ Auth::user()->profile->avatar }}" width="100%">
+                    <img src="{{ asset('uploads/avatars') }}/{{ Auth::user()->profile->avatar }}" width="100%">
                 @else
                     <img src="http://placehold.it/200x200" width="100%">
                 @endif
@@ -116,13 +116,12 @@
                             @if(!empty(Auth::user()->profile->cover_letter))
                                 <li class="list-group-item"><a href="{{ Storage::url(Auth::user()->profile->cover_letter)  }}">CoverLetter&nbsp;</a></li>
                             @else
-                                Please upload cover letter.
+                                <li class="list-group-item"><span class="text-danger"><strong>Please upload cover letter.</strong></span></li>
                             @endif
                             @if(!empty(Auth::user()->profile->resume))
                                 <li class="list-group-item"><a href="{{ Storage::url(Auth::user()->profile->resume)}}">Resume&nbsp;</a></li>
                             @else
-                                Please upload resume.
-
+                                <li class="list-group-item"><span class="text-danger"><strong>Please upload resume.</strong></span></li>
                             @endif
 
                         </ul>
@@ -130,12 +129,16 @@
                             <h4>Experience:</h4>
                             @if(!empty(Auth::user()->profile->experience))
                             {{Auth::user()->profile->experience}}
+                            @else
+                                <span class="text-danger"><strong>Please fill in experience.</strong></span>
                             @endif
                         </div>
                         <div style="padding: 1em;">
                             <h4>Bio:</h4>
                             @if(!empty(Auth::user()->profile->bio))
                             <p>{{Auth::user()->profile->bio}}</p>
+                            @else
+                                <span class="text-danger"><strong>Please fill in bio.</strong></span>
                             @endif
                         </div>
                     </div>

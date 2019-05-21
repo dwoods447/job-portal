@@ -28,7 +28,7 @@ class CompanyController extends Controller
 
                 $file_ext = $file->getClientOriginalExtension();
 
-                $filename = time() . '.' . $file_ext;
+                $filename = time() . '.' . strtolower($file_ext);
 
                 $file->move('uploads/logos/', $filename);
 
@@ -52,7 +52,7 @@ class CompanyController extends Controller
             if($request->hasfile('cover_photo')){
                 $file = $request->file('cover_photo');
                 $ext = $file->getClientOriginalExtension();
-                $filename = time() . '.'. $ext;
+                $filename = time() . '.'. strtolower($ext);
                 $file->move('uploads/coverphoto/', $filename);
                 Company::where('user_id', $user_id)->update([
                     'cover_photo' => $filename
