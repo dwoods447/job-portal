@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Company;
 use App\User;
 use App\Job;
@@ -50,7 +51,7 @@ class EmployerController extends Controller
 
     public function editJob($user_id, $company_id){
 
-        $job = Job::where('user_id', $user_id)->where('company_id', $company_id)->get();
+        $job = Job::where('user_id', $user_id)->where('company_id', $company_id)->first();
 
             //dd($jobs);
           return view('jobs.edit', compact('job'));

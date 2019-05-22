@@ -20,14 +20,16 @@
                             @if(!empty($jobs))
                                 @foreach($jobs as $job)
                                 <tr>
+
                                     @if(!empty(Auth::user()->company->logo))
                                         <td><img src="{{ asset('uploads/logos') }}/{{ Auth::user()->company->logo }}" width="50%"></td>
                                     @else
                                         <td><img src="http://placehold.it/200x200" width="100%"></td>
                                     @endif
-                                    <td>{{ $job->title }}</td>
+                                    <td style="width: 20%;">{{ $job->title }}</td>
                                     <td>{{ substr($job->description, 0, strlen($job->description)/3) }}</td>
-                                    <td>{{ date('m-d-Y',  strtotime($job->last_date)) }}</td>
+                                    <td style="width: 20%;">{{ date('m-d-Y',  strtotime($job->last_date)) }}</td>
+
                                     <td><a href="{{route('edit.job', [$job->user_id, $job->company_id])}}"><button class="btn btn-warning btn-sm">Edit</button></a></td>
                                 </tr>
                                @endforeach

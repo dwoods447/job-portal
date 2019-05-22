@@ -52,6 +52,10 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('all.jobs') }}">{{ __('View Jobs') }}</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             {{-- @if (Route::has('register'))
@@ -74,10 +78,38 @@
 
 
                         @else
+                        @if(Auth::check() && Auth::user()->user_type=="employer")
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('employer.jobs') }}">{{ __('View Jobs') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('job.applicants')}}">{{__('View All Applicants')}}</a>
+                                </li>
+                            @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('all.jobs') }}">{{ __('View Jobs') }}</a>
+                            </li>
+                        @endif
+                       @if(Auth::check() && Auth::user()->user_type=="employer")
+                           <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('employer.jobcreationform') }}">{{ __('Post a Job') }}</a>
+                           </li>
+                       @endif
+                        @if(Auth::check() && Auth::user()->user_type=="employer")
+                            <li  class="nav-item">
+                                <a href="{{route('company.profile')}}" class="nav-link"> {{ __('Company Profile') }}</a>
+                            </li>
+                            @endif
+                            @if(Auth::check() && Auth::user()->user_type=="seeker")
+                           <li  class="nav-item">
+                                <a href="{{route('jobseeker.profile')}}" class="nav-link">{{ Auth::user()->name }}'s {{ __('job profile') }}</a>
+                            </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
+
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"

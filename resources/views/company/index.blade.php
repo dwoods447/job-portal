@@ -25,8 +25,8 @@
 
                             </div>
                             <div class="col-lg-6">
-                                @if(Auth::check() && Auth::user()->company->cover_photo)
-                                <img src="{{asset('uploads/coverphoto')}}/{{Auth::user()->company->cover_photo}}" style="width: 100%;">
+                                @if($company->cover_photo)
+                                <img src="{{asset('uploads/coverphoto')}}/{{$company->cover_photo}}" style="width: 100%;">
                                 @else
                                 <img src="http://placehold.it/225x225" style="width: 100%;">
                                 @endif

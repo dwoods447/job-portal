@@ -7,14 +7,17 @@ use App\Job;
 use App\User;
 use App\Company;
 use App\Profile;
-use Hash;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class JobController extends Controller
 {
-	public function __construct()
-	{
-			//$this->middleware('employer', ['except' => array('index', 'show')]);
-		$this->middleware('employer');
-	}
+    public function __construct()
+{
+    //Job seeker has access to only the index, show, signup, register  methods
+    //Ensures only employers have access to the createJob function
+    $this->middleware('employer', ['except' =>  array('index', 'show', 'signup' ,'register' ,'submitApplication')]);
+}
 
 
 	//List all jobs to job seeker
@@ -120,6 +123,22 @@ class JobController extends Controller
 			return redirect('/employer/create/job')->with('error' , 'Job not saved');
 		endif;
 	}
+
+	public  function submitApplication(Request $request, $id){
+                $jobID = Job::find($id);
+                $jobID->users()->attach(Auth::user()->id);
+        return redirect()->back()->with('message', 'Application submitted!');
+    }
+
+
+    public  function getApplicants(){
+        $user_id = auth()->user()->id;
+        $applicants = Job::has('users')->where('user_id', $user_id)->get();
+        //dd($applicants);
+        return view('jobs.applicants', compact('applicants'));
+    }
+
+
 
 
 

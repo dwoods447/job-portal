@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //Get all Jobs
-Route::get('/jobs/all', 'JobController@index');
+Route::get('/jobs/all', 'JobController@index')->name('all.jobs');
 //Get Specific Job
 Route::get('/job/{id}/slug/{slug}', 'JobController@show')->name('job.show');
 
@@ -67,3 +67,9 @@ Route::get('/employer/jobs', 'EmployerController@getJobs')->name('employer.jobs'
 Route::get('/employer/{user_id}/job/{id}', 'EmployerController@editJob')->name('edit.job');
 //Update jobs that belong to an employer
 Route::post('/employer/job/{id}', 'EmployerController@updateJob')->name('update.job');
+
+
+//Job seeker  can apply for a job
+Route::post('/application/{id}', 'JobController@submitApplication')->name('submit.application');
+//Employer can view job applicants
+Route::get('/jobs/applications', 'JobController@getApplicants')->name('job.applicants');

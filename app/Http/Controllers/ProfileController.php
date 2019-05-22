@@ -6,17 +6,29 @@ use Illuminate\Http\Request;
 use App\Profile;
 class ProfileController extends Controller
 {
-    //Jobseeker profile page
+
+    public function __construct()
+    {
+        //Only Job seeker has access
+        $this->middleware('seeker');
+    }
+
+
+
+
+
+    //Job seeker profile page
 	public function create(){
 		return view('profile.index');
 	}
 
-	//Creates a new profile or updates an existing one
+	//Creates a new job seeker profile or updates an existing one
     public function store(Request $request){
 
         $validatedData = $request->validate([
             'address' => 'required',
             'phone' => 'required|min:10|regex:/^([0-9\s\-\+\(\)]*)$/',
+            'gender' => 'required',
             'experience'  => 'required',
             'bio' => 'required|min:20|max:140',
         ]);
@@ -25,6 +37,7 @@ class ProfileController extends Controller
         if($user_id) {
             $address = $request->input('address');
             $experience = $request->input('experience');
+            $gender = $request->input('gender');
             $bio = $request->input('bio');
             $phone = $request->input('phone');
 
@@ -33,6 +46,7 @@ class ProfileController extends Controller
 				$profileUpdate = Profile::where('user_id', $user_id)->update([
 					'address' => $address,
 					'phone' => $phone,
+					'gender' => $gender,
 					'experience' => $experience,
 					'bio' => $bio,
 
@@ -43,6 +57,7 @@ class ProfileController extends Controller
 					'user_id' => $user_id,
 					'address' => $address,
 					'phone' => $phone,
+                    'gender' => $gender,
 					'experience' => $experience,
 					'bio' => $bio,
 				]);
@@ -54,7 +69,7 @@ class ProfileController extends Controller
         return redirect('/jobseeker/profile')->with('error', 'Error saving profile information!');
     }
 
- 	//Uploads avatar
+ 	//Uploads avatar for job seeker
     public function uploadAvatar(Request $request){
         $user_id =  Auth()->user()->id;
         if($user_id){
@@ -80,7 +95,7 @@ class ProfileController extends Controller
         return redirect('/jobseeker/profile')->with('error', 'Error: avatar upload unsuccessful!');
     }
 
-	//Uploads resume
+	//Uploads resume for job seeker
     public function uploadResume(Request $request){
         $validatedData = $request->validate([
             'resume' => 'bail|required|mimes:pdf,doc,docx|max:20000'
@@ -98,7 +113,7 @@ class ProfileController extends Controller
         return redirect('/jobseeker/profile')->with('error', 'Error: resume upload unsuccessful!');
     }
 
-	//Uploads cover letter
+	//Uploads cover letter for job seeker
     public function uploadCoverLetter(Request $request)
     {
         $validatedData = $request->validate([

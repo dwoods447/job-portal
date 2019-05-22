@@ -24,7 +24,18 @@
                         <p>Position: {{$job->position}}</p>
                         <p>Date Posted: {{$job->last_date}}</p>
                         @if(Auth::check() && Auth::user()->user_type == 'seeker')
-                        <button class="btn btn-success btn-sm">Apply</button>
+                            @if(!$job->checkJobApplication())
+
+                                <form action="{{ route('submit.application', [$job->id])  }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-success btn-sm">Apply</button>
+                                </form>
+                             @endif
+                        @endif
+                        @if(Session::has('message'))
+                            <div class="alert alert-success">
+                                <p>{{Session::get('message')}}</p>
+                            </div>
                         @endif
                     </div>
                 </div>

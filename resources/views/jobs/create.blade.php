@@ -18,7 +18,7 @@
                                 </div>
                             @endif
 
-                        <form action="{{route('update.job')}}" method="post">@csrf
+                        <form action="{{route('post.job')}}" method="post">@csrf
                             <div class="form-group">
                                 <label>Job Title</label>
                                 <input type="text" value="{{old('title')}}" name="title" class="form-control">

@@ -57,6 +57,21 @@
                                 @endif
                             </div>
                             <div class="form-group">
+                                <label>Gender</label>
+                                @if(empty(Auth::user()->profile->gender))
+                                <select name="gender">
+                                    <option></option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                                @else
+                                    <select name="gender">
+                                        <option></option>
+                                        <option value="{{Auth::user()->profile->gender}}" selected>{{ Auth::user()->profile->gender == 'M' ? 'Male':'Female' }}</option>
+                                    </select>
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <label>Experience</label>
                                 @if(!empty(Auth::user()->profile->experience))
                                 <input type="text" name="experience" class="form-control" value="{{Auth::user()->profile->experience}}">
@@ -70,9 +85,9 @@
                             <div class="form-group">
                                 <label>Bio</label>
                                 @if(!empty(Auth::user()->profile->bio))
-                                <textarea class="form-control" rows="5" name="bio" style=>{{Auth::user()->profile->bio}}</textarea>
+                                <textarea class="form-control" rows="5" name="bio" style=>{{Auth::user()->profile->bio}}</textarea>Max 140 Characters
                                 @else
-                                <textarea class="form-control" rows="5" name="bio" style=></textarea>
+                                <textarea class="form-control" rows="5" name="bio" style=></textarea>Max 140 Characters
                                 @endif
                                 @if($errors->has('bio'))
                                     <span class="text-danger error">{{ $errors->first('bio') }}</span>

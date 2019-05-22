@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Job extends Model
 {
@@ -30,5 +31,18 @@ class Job extends Model
     }
     public function company(){
         return $this->belongsTo('App\Company');
+    }
+
+    public function users(){
+        return  $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+
+    public function checkJobApplication(){
+        $user_id = auth()->user()->id;
+        return DB::table('job_user')
+            ->where('user_id', $user_id)
+            ->where('job_id', $this->id)
+            ->exists();
     }
 }

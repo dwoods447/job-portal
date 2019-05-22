@@ -9,13 +9,23 @@ class CompanyController extends Controller
 {
     //
 
+
+
+    public function __construct()
+    {
+        //Job seeker has access to only the index, show, signup, register  methods
+        //Ensures only employers have access to the createJob function
+        $this->middleware('employer', ['except' =>  array('index')]);
+    }
+
+    //View individual company information
     public function index($id, Company $company){
 		$company = Company::findOrFail($id);
 		$jobs = Job::where('company_id', $id)->get();
 		return view('company.index', compact('company', 'jobs'));
     }
 
-
+    //View company profile page
     public function create(){
         return view('company.create');
     }
