@@ -10,23 +10,39 @@ use App\Profile;
 use Hash;
 class JobController extends Controller
 {
-    //
+	public function __construct()
+	{
+			//$this->middleware('employer', ['except' => array('index', 'show')]);
+		$this->middleware('employer');
+	}
 
+
+	//List all jobs to job seeker
     public function index(){
         $jobs = Job::all();
         return view('jobs.index', compact('jobs'));
     }
+	//Routes to the job creation form view for employer
+	public function jobCreationForm(){
+		return view('jobs.create');
+	}
 
+    //Show specific job to job seeker
     public function show($id, $slug){
         $job = Job::findOrFail($id);
         return view('jobs.show', compact('job'));
     }
+
+    //Takes job seeker to registration form
     public function signup(){
         return view('auth.jobseeker-register');
     }
 
+
+    //Saves job seeker registration information
     public function register(Request $request){
-        //dd($request);
+
+
 
         $this->validate($request, [
             'name'=>'required',
@@ -53,7 +69,7 @@ class JobController extends Controller
 
     }
 
-
+	// Creates new job for employer
     public function createJob(Request $request){
 
 		$validatedData = $request->validate([
@@ -72,8 +88,6 @@ class JobController extends Controller
 		$user_id = auth()->user()->id;
 		if($user_id):
 		$company = Company::select('id')->where('user_id', $user_id)->first();
-		//$ids = array('id' =>$user_id, 'company_id'=>$company[0]->id);
-		//dd($ids);
 		$title = $request->input('title');
 		$position = $request->input('position');
 		$address =  $request->input('address');
@@ -100,7 +114,6 @@ class JobController extends Controller
 		]);
 
 
-		//dd($job);
 
 		return redirect('/employer/create/job')->with('message' , 'Job created successfully');
 		else:
@@ -108,8 +121,7 @@ class JobController extends Controller
 		endif;
 	}
 
-	public function jobCreationForm(){
-    	return view('jobs.create');
-	}
+
+
 
 }

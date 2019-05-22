@@ -58,20 +58,25 @@ class EmployerController extends Controller
 
     public function updateJob($id, Request $request){
 
-         Job::where('id', $id)->update([
-            'title'=> $request->input('title'),
-            'slug'=>  str_slug($request->input('title')),
-            'description'=> $request->input('description'),
-            'roles'=> $request->input('roles'),
-            'category_id'=> $request->input('category'),
-            'position'=> $request->input('position'),
-            'address'=> $request->input('address'),
-            'job_type'=> $request->input('job_type'),
-            'status'=> $request->input('status'),
-            'last_date'=> $request->input('last_date'),
-        ]);
 
-        $job = Job::where('id', $id)->get();
+    		$job = Job::findorFail($id);
+
+			$job->update($request->all());
+
+//         Job::where('id', $id)->update([
+//            'title'=> $request->input('title'),
+//            'slug'=>  str_slug($request->input('title')),
+//            'description'=> $request->input('description'),
+//            'roles'=> $request->input('roles'),
+//            'category_id'=> $request->input('category'),
+//            'position'=> $request->input('position'),
+//            'address'=> $request->input('address'),
+//            'job_type'=> $request->input('job_type'),
+//            'status'=> $request->input('status'),
+//            'last_date'=> $request->input('last_date'),
+//        ]);
+//
+//        $job = Job::where('id', $id)->get();
 
         return view('jobs.edit', compact('job'));
     }

@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Profile;
 class ProfileController extends Controller
 {
-    //
+    //Jobseeker profile page
+	public function create(){
+		return view('profile.index');
+	}
 
-    public function create(){
-        return view('profile.index');
-    }
-
+	//Creates a new profile or updates an existing one
     public function store(Request $request){
 
         $validatedData = $request->validate([
@@ -29,7 +29,6 @@ class ProfileController extends Controller
             $phone = $request->input('phone');
 
             $profile = Profile::where('user_id', $user_id)->get();
-			//dd($profile);
 			if(empty($profile)){
 				$profileUpdate = Profile::where('user_id', $user_id)->update([
 					'address' => $address,
@@ -55,7 +54,7 @@ class ProfileController extends Controller
         return redirect('/jobseeker/profile')->with('error', 'Error saving profile information!');
     }
 
-
+ 	//Uploads avatar
     public function uploadAvatar(Request $request){
         $user_id =  Auth()->user()->id;
         if($user_id){
@@ -81,7 +80,7 @@ class ProfileController extends Controller
         return redirect('/jobseeker/profile')->with('error', 'Error: avatar upload unsuccessful!');
     }
 
-
+	//Uploads resume
     public function uploadResume(Request $request){
         $validatedData = $request->validate([
             'resume' => 'bail|required|mimes:pdf,doc,docx|max:20000'
@@ -99,7 +98,7 @@ class ProfileController extends Controller
         return redirect('/jobseeker/profile')->with('error', 'Error: resume upload unsuccessful!');
     }
 
-
+	//Uploads cover letter
     public function uploadCoverLetter(Request $request)
     {
         $validatedData = $request->validate([

@@ -18,24 +18,24 @@
                             </div>
                         @endif
                     @if(!empty($job))
-                        <form action="{{route('update.job', [$job[0]->id])}}" method="post">@csrf
+                        <form action="{{route('update.job', [$job->id])}}" method="post">@csrf
                             <div class="form-group">
                                 <label>Job Title</label>
-                                <input type="text" name="title" class="form-control" value="{{ $job[0]->title }}">
+                                <input type="text" name="title" class="form-control" value="{{ $job->title }}">
                                 @if($errors->has('title'))
                                     <span class="text-danger error">{{ $errors->first('title') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" rows="5" class="form-control">{{ $job[0]->description }}</textarea>
+                                <textarea name="description" rows="5" class="form-control">{{ $job->description }}</textarea>
                                 @if($errors->has('description'))
                                     <span class="text-danger error">{{ $errors->first('description') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label>Role</label>
-                                <textarea name="roles" rows="5" class="form-control">{{ $job[0]->roles }}</textarea>
+                                <textarea name="roles" rows="5" class="form-control">{{ $job->roles }}</textarea>
                                 @if($errors->has('roles'))
                                     <span class="text-danger error">{{ $errors->first('roles') }}</span>
                                 @endif
@@ -45,7 +45,7 @@
                                 <select name="category" class="form-control">
                                     <option value=""></option>
                                     @foreach(App\Category::all() as $cat)
-                                        @if($cat->id === $job[0]->category_id)
+                                        @if($cat->id === $job->category_id)
                                             <option value="{{$cat->id}}" selected>{{$cat->cat_name}}</option>
                                         @else
                                           <option value="{{$cat->id}}">{{$cat->cat_name}}</option>
@@ -59,14 +59,14 @@
                             </div>
                             <div class="form-group">
                                 <label>Position</label>
-                                <input type="text" value="{{ $job[0]->position }}" name="position" class="form-control">
+                                <input type="text" value="{{ $job->position }}" name="position" class="form-control">
                                 @if($errors->has('position'))
                                     <span class="text-danger error">{{ $errors->first('position') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label>Address</label>
-                                <input type="text" value="{{  $job[0]->address }}" name="address" class="form-control">
+                                <input type="text" value="{{  $job->address }}" name="address" class="form-control">
                                 @if($errors->has('address'))
                                     <span class="text-danger error">{{ $errors->first('address') }}</span>
                                 @endif
@@ -97,9 +97,10 @@
                                     <span class="text-danger error">{{ $errors->first('status') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label>Post Date</label>
-                                <input type="date" value="{{ $job[0]->last_date }}" name="last_date" class="form-control">
+                                <input type="date" value="{{ $job->last_date }}" name="last_date" class="form-control" id="datepicker">
                                 @if($errors->has('last_date'))
                                     <span class="text-danger error">{{ $errors->first('last_date') }}</span>
                                 @endif
@@ -116,4 +117,5 @@
             </div>
         </div>
     </div>
+
 @endsection

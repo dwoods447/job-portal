@@ -56,7 +56,7 @@ Route::post('/jobseeker/resume/upload', 'ProfileController@uploadResume')->name(
 Route::post('/jobseeker/cover_letter/upload', 'ProfileController@uploadCoverLetter')->name('upload.coverletter');
 
 
-
+//Employer job creation form
 Route::get('/employer/create/job', 'JobController@jobCreationForm')->name('employer.jobcreationform');
 Route::post('/employer/create/job','JobController@createJob')->name('post.job');
 
