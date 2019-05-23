@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //Get all Jobs
-Route::get('/jobs/all', 'JobController@index')->name('all.jobs');
+Route::get('/', 'JobController@index')->name('all.jobs');
 //Get Specific Job
 Route::get('/job/{id}/slug/{slug}', 'JobController@show')->name('job.show');
 

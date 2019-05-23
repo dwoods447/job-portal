@@ -17,12 +17,13 @@
                                     <li class="list-group-item">Phone:&nbsp;{{$company->phone}}</li>
                                     <li class="list-group-item">Website:&nbsp;{{$company->website}}</li>
                                 </ul>
+                                @if(Auth::check())
                                 <ul>
                                     <li>
                                         <a href="{{ route('company.profile') }}">Back to Company Profile</a>
                                     </li>
                                 </ul>
-
+                                @endif
                             </div>
                             <div class="col-lg-6">
                                 @if($company->cover_photo)
@@ -31,9 +32,12 @@
                                 <img src="http://placehold.it/225x225" style="width: 100%;">
                                 @endif
                             </div>
-                            <p>{{$company->description}}<p>
                         </div>
-
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p>{{$company->description}}<p>
+                            </div>
+                        </div>
                         <div>
                             <h2>Active Jobs</h2>
                             <table class="table">

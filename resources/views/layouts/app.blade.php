@@ -75,8 +75,6 @@
                                 <a class="nav-link" href="{{ route('jobseeker.signup') }}">{{ __('Jobseeker Registration') }}</a>
                             </li>
                             @endif
-
-
                         @else
                         @if(Auth::check() && Auth::user()->user_type=="employer")
                                 <li class="nav-item">
