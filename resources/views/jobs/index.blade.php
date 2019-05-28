@@ -34,17 +34,20 @@
         <div class="container">
                 <h1>Featured Companies</h1>
             <div class="row">
+
+             @foreach($companies as $company)
                 <div class="col-lg-3">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card" style="width: 18rem; margin: 10px;">
+                        <img class="card-img-top" src="{{ asset('uploads/coverphoto') }}/{{$company->cover_photo}}" alt="Card image cap">
                         <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                          <h5 class="card-title">{{ $company->company_name  }}</h5>
+                          <p class="card-text">{{ $company->address }}</p>
+                          <a href="{{ route('companies.index', [$company->id, $company->company_name ]) }}" class="btn btn-primary">{{ __('View Company Page') }}</a>
                         </div>
                       </div>
-
                 </div><!--  end of column -->
+               @endforeach
+
             </div>
         </div>
 @endsection

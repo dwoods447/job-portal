@@ -16,19 +16,40 @@ class JobController extends Controller
 {
     //Job seeker has access to only the index, show, signup, register  methods
     //Ensures only employers have access to the createJob function
-    $this->middleware('employer', ['except' =>  array('index', 'show', 'signup' ,'register' ,'submitApplication')]);
+    $this->middleware('employer', ['except' =>  array('index', 'show', 'signup' ,'register' ,'submitApplication', 'allJobs')]);
 }
 
 
-	//List all jobs to job seeker
+    //Latest jobs to job seeker
     public function index(){
-        $jobs = Job::all();
-        return view('jobs.index', compact('jobs'));
+       // $jobs = Job::all();
+        $jobs = Job::latest()->where('status', 1)->limit(8)->get();
+
+        $companies = Company::get()->random(8);
+
+        return view('jobs.index', compact('jobs', 'companies'));
+    }
+    //List all jobs to job seeker
+    public function allJobs(Request $request){
+        $jobTitle =  $request->input('title');
+        $jobType =  $request->input('job_type');
+        $categoryID =   $request->input('category');
+        if($jobTitle||$jobType||$categoryID){
+            $jobs = Job::where('title', 'LIKE', '%' . $jobTitle. '%')->orWhere('category_id',$categoryID)->orWhere('job_type', $jobType)->paginate(8);
+            return view('jobs.all', compact('jobs'));
+        }else{
+            $jobs = Job::paginate(8);
+            return view('jobs.all', compact('jobs'));
+        }
+
+
     }
 	//Routes to the job creation form view for employer
 	public function jobCreationForm(){
 		return view('jobs.create');
 	}
+
+
 
     //Show specific job to job seeker
     public function show($id, $slug){
@@ -137,6 +158,8 @@ class JobController extends Controller
         //dd($applicants);
         return view('jobs.applicants', compact('applicants'));
     }
+
+
 
 
 

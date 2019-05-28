@@ -21,11 +21,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
+//Get latest Jobs
+Route::get('/', 'JobController@index')->name('latest.jobs');
 //Get all Jobs
-Route::get('/', 'JobController@index')->name('all.jobs');
+Route::get('/jobs/all', 'JobController@allJobs')->name('all.jobs');
 //Get Specific Job
 Route::get('/job/{id}/slug/{slug}', 'JobController@show')->name('job.show');
-
 
 //Get Specific Company Info
 Route::get('/company/{id}/{name}', 'CompanyController@index')->name('companies.index');
