@@ -10,7 +10,7 @@ class ProfileController extends Controller
     public function __construct()
     {
         //Only Job seeker has access
-        $this->middleware('seeker');
+        $this->middleware(['seeker', 'verified']);
     }
 
 

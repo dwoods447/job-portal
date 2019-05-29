@@ -15,7 +15,7 @@
 //     return view('welcome');
 // });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -50,7 +50,7 @@ Route::post('/company/store', 'CompanyController@store')->name('company.store');
 
 
 //Jobseeker Profile
-Route::get('/jobseeker/profile', 'ProfileController@create')->name('jobseeker.profile');
+Route::get('/jobseeker/profile', 'ProfileController@create')->middleware('verified')->name('jobseeker.profile');
 Route::post('/jobseeker/profile/store', 'ProfileController@store')->name('profile.store');
 Route::post('/jobseeker/avatar/upload', 'ProfileController@uploadAvatar')->name('upload.avatar');
 Route::post('/jobseeker/resume/upload', 'ProfileController@uploadResume')->name('upload.resume');

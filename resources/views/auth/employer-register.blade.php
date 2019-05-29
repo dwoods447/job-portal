@@ -7,6 +7,13 @@
             <div class="card">
                 <div class="card-header">{{ __('Employer Registration') }}</div>
 
+
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        <p>{{Session::get('message')}}</p>
+                    </div>
+                @endif
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('employer.register') }}">
                         @csrf

@@ -16,7 +16,7 @@ class JobController extends Controller
 {
     //Job seeker has access to only the index, show, signup, register  methods
     //Ensures only employers have access to the createJob function
-    $this->middleware('employer', ['except' =>  array('index', 'show', 'signup' ,'register' ,'submitApplication', 'allJobs')]);
+    $this->middleware(['employer', 'verified'], ['except' =>  array('index', 'show', 'signup' ,'register' ,'submitApplication', 'allJobs')]);
 }
 
 

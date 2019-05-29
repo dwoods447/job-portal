@@ -40,7 +40,7 @@ class EmployerController extends Controller
             'company_name'=>$company,
             'slug'=> $slug,
         ]);
-        return redirect('/login')->with('message', 'Successful Registration');
+        return redirect('/login')->with('message', 'Please verify your email!');
     }
 
     public function getJobs(){
